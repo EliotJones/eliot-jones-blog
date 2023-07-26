@@ -1,0 +1,11 @@
+[
+  {
+    "outputFileName": "wwwroot/css/site.min.css",
+    "inputFiles": [
+      "wwwroot/css/skeleton.css",
+      "wwwroot/css/normalize.css",
+      "wwwroot/css/github-gist.css",
+      "wwwroot/css/site.css"
+    ]
+  }
+]

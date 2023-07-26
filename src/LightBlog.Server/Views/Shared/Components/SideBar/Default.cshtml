@@ -1,0 +1,19 @@
+@model IReadOnlyList<LightBlog.Server.ViewModels.PostViewModel>
+
+<div class="side-box">
+    <h2>Top Posts</h2>
+
+    <ol>
+        @for (var i = 0; i < Model.Count; i++)
+        {
+            <li>
+                <a asp-route="post"
+                   asp-route-year="@Model[i].Year"
+                   asp-route-month="@Model[i].Month"
+                   asp-route-name="@Model[i].Name">
+                    @Model[i].Title
+                </a>
+            </li>
+        }
+    </ol>
+</div>

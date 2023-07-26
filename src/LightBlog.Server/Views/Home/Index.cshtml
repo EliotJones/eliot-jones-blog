@@ -1,0 +1,14 @@
+@model LightBlog.Server.ViewModels.PagedPostsViewModel
+@{
+    ViewData["Title"] = "Home Page";
+}
+
+@await Html.PartialAsync("_Paging")
+
+@for(var i = 0; i < Model.Posts.Count; i++)
+{
+    @Html.Partial("_Post", Model.Posts[i], new ViewDataDictionary(ViewData) { { "home", true } })
+}
+
+
+@await Html.PartialAsync("_Paging")

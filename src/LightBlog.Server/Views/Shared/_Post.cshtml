@@ -1,0 +1,38 @@
+@inject IOptions<SiteOptions> Site
+@using LightBlog.Server.Models
+@model LightBlog.Server.ViewModels.PostViewModel
+@{
+    var isSummaryView = Site.Value.SummaryOnly && ViewData["home"] != null;
+}
+
+<div class="post">
+    <h2>
+        <a asp-route="post"
+           asp-route-year="@Model.Year"
+           asp-route-month="@Model.Month"
+           asp-route-name="@Model.Name">
+            @Model.Title
+        </a>
+    </h2>
+    <div class="date">
+        <span>@Model.Date.ToString("dd/MM/yyyy")</span>
+    </div>
+    <div class="post-body">
+        @if (isSummaryView)
+        {
+            @Html.Raw(Model.RawHtmlSummary)
+        }
+        else
+        {
+            @Html.Raw(Model.RawHtml)
+        }
+    </div>
+    @if (isSummaryView)
+    {
+        <a class="more" asp-route="post"
+           asp-route-year="@Model.Year"
+           asp-route-month="@Model.Month"
+           asp-route-name="@Model.Name"
+           title="@Model.Title">...</a>
+    }
+</div>

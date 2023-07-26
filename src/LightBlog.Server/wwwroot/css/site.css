@@ -1,0 +1,132 @@
+body {
+    margin: 0;
+    padding: 0;
+}
+
+h1, h2, h3, h4, h5, h6 {
+    margin-top: 1.5rem;
+    margin-bottom: 1rem;
+    font-family: 'Rubik', sans-serif;
+    font-weight: bold;
+    letter-spacing: 0.05px;
+}
+
+details {
+    padding: 10px;
+    background: aliceblue;
+    border: 1px solid #C5EFF7;
+    color: #666;
+}
+
+img {
+    max-width: 100%;
+    box-sizing: border-box;
+}
+
+summary {
+    cursor: pointer;
+}
+
+.menu {
+    height: 70px;
+    background-color: #1ba6e0;
+    color: #ecf0f1;
+    padding-left: 2%;
+    background: url("../images/banner-image.png") right no-repeat #1ba6e0;
+}
+
+    .menu > h1 {
+        font-size: 2.3em;
+        height: 45px;
+        margin: 0;
+    }
+
+    .menu > h2 {
+        font-size: 1.2em;
+        line-height: 16px;
+        height: 25px;
+        margin: 0;
+    }
+
+.date {
+    background: url("../images/date.png") left no-repeat;
+    padding-left: 20px;
+    color: #AAA;
+    font-size: 15px;
+    margin-left: 20px;
+}
+
+.menu > h1 > a {
+    color: #ecf0f1;
+    text-decoration: none;
+}
+
+.side-box {
+    background-color: #1ba6e0;
+    margin: 20px auto;
+    padding: 5px;
+    color: #ecf0f1;
+}
+
+    .side-box > ol > li {
+        font-family: 'Rubik', sans-serif;
+        margin-left: 5px;
+    }
+
+        .side-box > ol > li > a {
+            color: #ecf0f1;
+            text-decoration: none;
+        }
+
+    .side-box > h1, .side-box > h2 {
+        text-align: center;
+        font-size: 1.6em;
+        margin: 0;
+    }
+
+main {
+    margin-top: 20px;
+}
+
+.post {
+    margin-bottom: 60px;
+}
+
+    .post > h2 {
+        margin-bottom: 5px;
+    }
+
+        .post > h2 > a {
+            text-decoration: none;
+        }
+
+.post-body {
+    padding: 0 20px;
+}
+
+    .post-body p {
+        margin-top: 10px;
+        margin-bottom: 5px;
+    }
+
+.more {
+    width: 100%;
+    background-color: #ecf0f1;
+    height: 32px;
+    margin-top: 25px;
+    border-radius: 3px;
+    color: #bdc3c7;
+    font-size: 25px;
+    font-weight: bolder;
+    text-align: center;
+    display: block;
+    text-decoration: none;
+    line-height: 21px;
+}
+
+    .more:hover {
+        background-color: #ddd;
+        -webkit-transition: background-color 500ms linear;
+        -ms-transition: background-color 500ms linear;
+        transition: background-color 500ms linear;
+    }

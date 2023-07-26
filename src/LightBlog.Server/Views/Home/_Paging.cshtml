@@ -1,0 +1,15 @@
+@model LightBlog.Server.ViewModels.PagedPostsViewModel
+
+@if(Model.TotalPages > 1)
+{
+    <div class="paging">
+        @for(var i = 1; i < Model.TotalPages + 1; i++)
+        {
+            var cssClass = i == Model.PageNumber ? "button button-primary" : "button";
+
+            <a asp-controller="home" asp-action="index"
+               asp-route-page="@i"
+               class="@cssClass">@i</a>
+        }
+    </div>
+}
