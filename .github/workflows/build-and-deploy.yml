@@ -40,9 +40,14 @@ jobs:
           target: "/home/eliot/blog-deploy"
 
       - name: Deploy on server
-        run: >
-          supervisorctl stop blog
-          rm -rf /var/blog/
-          cp -a /home/eliot/blog-deploy/publish/. /var/blog/
-          chown -R www-data /var/blog/
-          supervisorctl start blog
+        uses: garygrossgarten/github-action-ssh@release
+        with:
+          command: >
+            supervisorctl stop blog
+            rm -rf /var/blog/
+            cp -a /home/eliot/blog-deploy/publish/. /var/blog/
+            chown -R www-data /var/blog/
+            supervisorctl start blog
+          host: ${{ secrets.REMOTE_HOST }}
+          username: ${{ secrets.REMOTE_USER }}
+          privateKey: ${{ secrets.SSH_KEY }}
