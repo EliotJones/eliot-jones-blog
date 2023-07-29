@@ -14,7 +14,7 @@ public interface IPostRepository
 
     bool TryFindPost(int year, int month, string name, [NotNullWhen(true)] out PostViewModel? post);
 
-    IReadOnlyList<PostViewModel> GetTopPosts(int number);
+    IReadOnlyList<PostViewModel> GetMostRecent(int number);
 }
 
 public partial class PostRepository : IPostRepository
@@ -83,7 +83,7 @@ public partial class PostRepository : IPostRepository
         return true;
     }
 
-    public IReadOnlyList<PostViewModel> GetTopPosts(int number)
+    public IReadOnlyList<PostViewModel> GetMostRecent(int number)
     {
         var posts = GetAllPostInformation();
 

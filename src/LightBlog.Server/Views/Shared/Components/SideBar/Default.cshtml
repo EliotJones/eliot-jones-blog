@@ -1,7 +1,7 @@
 @model IReadOnlyList<LightBlog.Server.ViewModels.PostViewModel>
 
 <div class="side-box">
-    <h2>Top Posts</h2>
+    <h2>Recent Posts</h2>
 
     <ol>
         @for (var i = 0; i < Model.Count; i++)
@@ -16,4 +16,11 @@
             </li>
         }
     </ol>
+    
+    <h2>Other Sites</h2>
+    <ul>
+        <li><a href="https://hn-trends.eliot-jones.com">HackerNews Trends</a></li>
+        <li><a href="http://eliot-jones.com:6575">FAF Lobby Sim</a></li>
+        <li><a href="https://eliot-jones.com/rss">RSS</a></li>
+    </ul>
 </div>

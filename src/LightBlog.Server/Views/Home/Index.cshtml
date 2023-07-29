@@ -7,7 +7,7 @@
 
 @for(var i = 0; i < Model.Posts.Count; i++)
 {
-    @Html.Partial("_Post", Model.Posts[i], new ViewDataDictionary(ViewData) { { "home", true } })
+    @await Html.PartialAsync("_Post", Model.Posts[i], new ViewDataDictionary(ViewData) { { "home", true } })
 }
 
 

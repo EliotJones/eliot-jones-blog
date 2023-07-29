@@ -28,11 +28,13 @@ summary {
 }
 
 .menu {
-    height: 70px;
-    background-color: #1ba6e0;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    height: 80px;
+    background-color: #0984e3;
     color: #ecf0f1;
-    padding-left: 2%;
-    background: url("../images/banner-image.png") right no-repeat #1ba6e0;
+    padding-left: 24px;
 }
 
     .menu > h1 {
@@ -42,18 +44,19 @@ summary {
     }
 
     .menu > h2 {
-        font-size: 1.2em;
+        font-size: 0.9em;
         line-height: 16px;
-        height: 25px;
         margin: 0;
+        font-weight: normal;
     }
 
 .date {
     background: url("../images/date.png") left no-repeat;
     padding-left: 20px;
     color: #AAA;
-    font-size: 15px;
-    margin-left: 20px;
+    font-size: 14px;
+    margin-top: 4px;
+    margin-bottom: 24px;
 }
 
 .menu > h1 > a {
@@ -62,38 +65,69 @@ summary {
 }
 
 .side-box {
-    background-color: #1ba6e0;
-    margin: 20px auto;
-    padding: 5px;
+    background-color: #0984e3;
+    margin: 24px auto;
+    padding: 16px;
     color: #ecf0f1;
+    font-size: 1.5rem;
+    line-height: 2rem;
+    margin-top: 64px;
 }
 
-    .side-box > ol > li {
-        font-family: 'Rubik', sans-serif;
-        margin-left: 5px;
+    .side-box > ul > li > a:hover {
+        text-decoration: underline;
     }
 
-        .side-box > ol > li > a {
-            color: #ecf0f1;
-            text-decoration: none;
+    .side-box > ol > li > a:hover {
+        text-decoration: underline;
+    }
+
+    .side-box > ul {
+        list-style-type: disc;
+    }
+
+        .side-box > ul > li {
+            margin-bottom: 0.5rem;
         }
+
+            .side-box > ul > li > a {
+                color: #ecf0f1;
+                text-decoration: none;
+                font-weight: bold;
+            }
+
+    .side-box > ol {
+        margin-bottom: 32px;
+    }
+
+        .side-box > ol > li {
+            font-family: 'Rubik', sans-serif;
+            margin-left: 5px;
+        }
+
+            .side-box > ol > li > a {
+                color: #ecf0f1;
+                text-decoration: none;
+            }
 
     .side-box > h1, .side-box > h2 {
         text-align: center;
         font-size: 1.6em;
         margin: 0;
+        margin-bottom: 16px;
     }
 
 main {
-    margin-top: 20px;
+    margin-top: 64px;
 }
 
 .post {
-    margin-bottom: 60px;
+    margin-bottom: 64px;
 }
 
     .post > h2 {
-        margin-bottom: 5px;
+        margin-bottom: 0px;
+        line-height: 3.5rem;
     }
 
         .post > h2 > a {
@@ -101,7 +135,8 @@ main {
         }
 
 .post-body {
-    padding: 0 20px;
+    padding: 0;
+    padding-right: 32px;
 }
 
     .post-body p {
@@ -114,7 +149,7 @@ main {
     background-color: #ecf0f1;
     height: 32px;
     margin-top: 25px;
-    border-radius: 3px;
+    border-radius: 0;
     color: #bdc3c7;
     font-size: 25px;
     font-weight: bolder;

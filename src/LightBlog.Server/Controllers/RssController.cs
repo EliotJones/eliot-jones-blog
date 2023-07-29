@@ -1,3 +1,4 @@
+using System.Text;
 using LightBlog.Server.Models;
 using Microsoft.AspNetCore.Mvc;
 
@@ -21,6 +22,6 @@ public class RssController : Controller
 
         var feed = feedFactory.GetFeed();
 
-        return Ok(feed);
+        return Content(feed, "text/xml", Encoding.UTF8);
     }
 }

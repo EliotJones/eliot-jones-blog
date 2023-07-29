@@ -14,7 +14,7 @@ public class HomeController : Controller
 
     public IActionResult Index(int page = 1)
     {
-        var posts = postRepository.GetPaged(page, 3);
+        var posts = postRepository.GetPaged(page, 5);
 
         return View(posts);
     }

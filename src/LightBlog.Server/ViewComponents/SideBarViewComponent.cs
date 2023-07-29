@@ -14,7 +14,7 @@ public class SideBarViewComponent : ViewComponent
 
     public Task<IViewComponentResult> InvokeAsync()
     {
-        var topPosts = postRepository.GetTopPosts(5);
+        var topPosts = postRepository.GetMostRecent(10);
 
         return Task.FromResult((IViewComponentResult)View(topPosts));
     }

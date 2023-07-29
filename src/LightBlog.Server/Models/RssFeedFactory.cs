@@ -21,7 +21,7 @@ internal class RssFeedFactory : IRssFeedFactory
         IOptions<SiteOptions> siteOptions)
     {
         this.postRepository = postRepository;
-        this.urlHelper = urlHelperFactory.GetUrlHelper(actionContextAccessor.ActionContext);
+        this.urlHelper = urlHelperFactory.GetUrlHelper(actionContextAccessor.ActionContext!);
         this.logger = logger;
         this.siteOptions = siteOptions;
     }
@@ -30,33 +30,44 @@ internal class RssFeedFactory : IRssFeedFactory
     {
         var posts = postRepository.GetAll();
 
+        var link = urlHelper.Link("default", new { action = "Index", controller = "Home" });
+
+        if (link == null)
+        {
+            return string.Empty;
+        }
+
         var feed = new Feed
         {
             Title = siteOptions.Value.Name,
             Description = siteOptions.Value.Description,
-            Link = new Uri(urlHelper.Link("default", new { action = "Index", controller = "Home" }))
+            Link = new Uri(link)
         };
 
-        var feedPosts = posts.Select(x =>
+        var result = new List<Item>(posts.Count);
+        foreach (var x in posts.OrderByDescending(x => x.Date))
+        {
+            var url = urlHelper.Link("post", new { year = x.Year, month = x.Month, name = x.Name });
+
+            if (url == null)
             {
-                var url = urlHelper.Link("post", new { year = x.Year, month = x.Month, name = x.Name });
+                continue;
+            }
 
-                return new Item
-                {
-                    Title = x.Title,
-                    Body = x.RawHtml,
-                    Link = new Uri(url),
-                    Permalink = url,
-                    PublishDate = x.Date,
-                    Author = new Author { Email = siteOptions.Value.AuthorName, Name = siteOptions.Value.Name }
-                };
-            })
-            .OrderByDescending(x => x.PublishDate)
-            .ToList();
+            result.Add(new Item
+            {
+                Title = x.Title,
+                Body = x.RawHtml,
+                Link = new Uri(url),
+                Permalink = url,
+                PublishDate = x.Date,
+                Author = new Author { Email = siteOptions.Value.AuthorName, Name = siteOptions.Value.Name }
+            });
+        }
 
-        logger.LogInformation($"Found {feedPosts.Count} posts");
+        logger.LogInformation($"Found {result.Count} posts");
 
-        feed.Items = feedPosts;
+        feed.Items = result;
 
         var rss = feed.Serialize();
 
