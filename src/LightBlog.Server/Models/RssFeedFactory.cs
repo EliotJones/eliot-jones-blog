@@ -9,17 +9,21 @@ namespace LightBlog.Server.Models;
 
 internal class RssFeedFactory : IRssFeedFactory
 {
+    private readonly IWebHostEnvironment environment;
     private readonly IPostRepository postRepository;
     private readonly IUrlHelper urlHelper;
     private readonly ILogger<RssFeedFactory> logger;
     private readonly IOptions<SiteOptions> siteOptions;
 
-    public RssFeedFactory(IPostRepository postRepository,
+    public RssFeedFactory(
+        IWebHostEnvironment environment,
+        IPostRepository postRepository,
         IUrlHelperFactory urlHelperFactory,
         IActionContextAccessor actionContextAccessor,
         ILogger<RssFeedFactory> logger,
         IOptions<SiteOptions> siteOptions)
     {
+        this.environment = environment;
         this.postRepository = postRepository;
         this.urlHelper = urlHelperFactory.GetUrlHelper(actionContextAccessor.ActionContext!);
         this.logger = logger;
@@ -37,6 +41,14 @@ internal class RssFeedFactory : IRssFeedFactory
             return string.Empty;
         }
 
+        // TLS termination occurs at the reverse proxy so public facing links are HTTPS.
+        var useHttps = environment.IsProduction();
+
+        if (useHttps)
+        {
+            link = link.Replace("http:", "https:", StringComparison.OrdinalIgnoreCase);
+        }
+
         var feed = new Feed
         {
             Title = siteOptions.Value.Name,
@@ -52,6 +64,11 @@ internal class RssFeedFactory : IRssFeedFactory
             if (url == null)
             {
                 continue;
+            }
+
+            if (useHttps)
+            {
+                url = url.Replace("http:", "https:", StringComparison.OrdinalIgnoreCase);
             }
 
             result.Add(new Item
