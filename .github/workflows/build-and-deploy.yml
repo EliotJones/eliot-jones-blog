@@ -1,0 +1,48 @@
+# This workflow will build a .NET project
+# For more information see: https://docs.github.com/en/actions/automating-builds-and-tests/building-and-testing-net
+
+name: Build And Deploy
+
+on:
+  push:
+    branches: ["main"]
+
+jobs:
+  build:
+    runs-on: ubuntu-22.04
+
+    steps:
+      - uses: actions/checkout@v3
+      - name: Setup .NET
+        uses: actions/setup-dotnet@v3
+        with:
+          dotnet-version: 7.0.x
+
+      - name: Restore dependencies
+        run: dotnet restore
+
+      - name: Build
+        run: dotnet build -c Release --no-restore
+
+      # Now build a linux publish
+      - name: Publish
+        run: dotnet publish -c Release -r linux-x64 -o "$GITHUB_WORKSPACE/publish" src/LightBlog.Server/LightBlog.Server.csproj
+
+      # Copying files and artifacts via SSH
+      - name: Copying files to server
+        uses: appleboy/scp-action@master
+        with:
+          host: ${{ secrets.REMOTE_HOST }}
+          username: ${{ secrets.REMOTE_USER }}
+          key: ${{ secrets.SSH_KEY }}
+          rm: true
+          source: "publish/"
+          target: "/home/eliot/blog-deploy"
+
+      - name: Deploy on server
+        run: >
+          supervisorctl stop blog
+          rm -rf /var/blog/
+          cp -a /home/eliot/blog-deploy/publish/. /var/blog/
+          chown -R www-data /var/blog/
+          supervisorctl start blog

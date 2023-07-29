@@ -5,6 +5,7 @@
     <Nullable>enable</Nullable>
     <ImplicitUsings>enable</ImplicitUsings>
     <LangVersion>Latest</LangVersion>
+    <SelfContained>true</SelfContained>
   </PropertyGroup>
 
   <ItemGroup>
@@ -12,5 +13,4 @@
     <PackageReference Include="MarkdownSharp" Version="2.0.5" />
     <PackageReference Include="WilderMinds.RssSyndication" Version="1.7.0" />
   </ItemGroup>
-
 </Project>
