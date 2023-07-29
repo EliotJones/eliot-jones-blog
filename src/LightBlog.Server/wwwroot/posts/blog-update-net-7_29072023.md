@@ -24,44 +24,34 @@ My DigitalOcean VPS is the cheapest tier ($5 a month originally, now $6-somethin
 
 The application is published from either my Windows machine or the GitHub CI runner using:
 
-```
-dotnet publish -c Release -r linux-x64
-```
+    dotnet publish -c Release -r linux-x64
 
 Which generates a self-contained application (when `<SelfContained>` is defined in the .csproj file). The application is then copied to the server (not directly to the deployed directory since this is locked by the running app) using scp:
 
-```
-scp -r /c/path/to/publish username@ip-or-host:/path/on/remote
-```
+    scp -r /c/path/to/publish username@ip-or-host:/path/on/remote
 
 Each application is deployed to the `/var/{app-folder}` directory on the server and launched and managed by [Supervisor](http://supervisord.org/).
 
 The Supervisor config files live at `/etc/supervisor/conf.d`. Each file defines an application for Supervisor to manage. This blog lives under `/var/blog`:
 
-```
-[program:blog]
-command=/usr/bin/dotnet /var/blog/LightBlog.Server.dll --server.urls:http://*:5000
-directory=/var/blog
-autostart=true
-autorestart=true
-stderr_logfile=/var/log/blog.err.log
-stdout_logfile=/var/log/blog.out.log
-environment=ASPNETCORE_ENVIRONMENT=Production
-user=www-data
-stopsignal=INT
-```
+    [program:blog]
+    command=/usr/bin/dotnet /var/blog/LightBlog.Server.dll --server.urls:http://*:5000
+    directory=/var/blog
+    autostart=true
+    autorestart=true
+    stderr_logfile=/var/log/blog.err.log
+    stdout_logfile=/var/log/blog.out.log
+    environment=ASPNETCORE_ENVIRONMENT=Production
+    user=www-data
+    stopsignal=INT
 
 To copy the newly `scp` published app to the `/var/{app-folder}` directory the running application (named blog) is first stopped using:
 
-```
-supervisorctl stop blog
-```
+    supervisorctl stop blog
 
 The existing files are then cleared, the newly uploaded files copied to the target folder and finally the blog restarted using:
 
-```
-supervisorctl start blog
-```
+    supervisorctl start blog
 
 There are more details in Scott's blog-post for configuring NGINX as a reverse proxy and using Let's Encrypt to expose the site over HTTPS.
 
