@@ -103,7 +103,9 @@ So now we have our image in a black-and-white array (0 and 1). What next?
 
 Well looking at the example thresholded image we can see that the region of interest is the table highlighted in orange:
 
+<a href="/images/lobbysim/sample-lobby-thresholded-target-extracted.png" target="_blank">
 ![Table of interest in orange](/images/lobbysim/sample-lobby-thresholded-target-extracted.png)
+</a>
 
 If the slot is open there are 2 'words' in the Nickname column, "Open" and the chevron symbol for the dropdown containing the option to move into the slot or, if you are the host, close the slot. When I say 'word' here I mean nothing more group of pixels since this can be actual text, a faction symbol, a country flag, a block of color, or something else.
 
