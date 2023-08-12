@@ -103,7 +103,7 @@ So now we have our image in a black-and-white array (0 and 1). What next?
 
 Well looking at the example thresholded image we can see that the region of interest is the table highlighted in orange:
 
-![Table of interest in orange]()
+![Table of interest in orange](/images/lobbysim/sample-lobby-thresholded-target-extracted.png)
 
 If the slot is open there are 2 'words' in the Nickname column, "Open" and the chevron symbol for the dropdown containing the option to move into the slot or, if you are the host, close the slot. When I say 'word' here I mean nothing more group of pixels since this can be actual text, a faction symbol, a country flag, a block of color, or something else.
 
@@ -135,7 +135,7 @@ If you're scanning the image top-to-bottom left-to-right when you first encounte
 
 The first steps of this are shown below, the colors are purely illustrative:
 
-![Initial flood fill steps](/images/lobbysim/scaled-nickname-thresholded.png)
+![Initial flood fill steps](/images/lobbysim/scaled-nickname-step-2.png)
 
 This is basically just a flood fill algorithm except you allow for gaps, both for diagonal pixels and entirely disjoint pixels like the dot on the 'i' and next letters in the word.
 
