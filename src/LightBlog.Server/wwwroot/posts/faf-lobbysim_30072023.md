@@ -48,7 +48,9 @@ I vaguely recall a former boss once used OpenCV to 'bot' a simple game. I guess 
 
 #### Image processing
 
+<a href="/images/lobbysim/sample-lobby.png" target="_blank">
 ![lobby screenshot](/images/lobbysim/sample-lobby.png)
+</a>
 
 This screenshot shows the layout we need to parse. We 'just' need to pull out the number of "Open", "Closed" and occupied slots in the Nickname column.
 
@@ -60,7 +62,9 @@ I also played around with OpenCV and edge detection but didn't want the dependen
 
 The first step is to threshold the image to simplify the input data. Playing around with the image in GIMP I found a reasonable threshold value:
 
+<a href="/images/lobbysim/sample-lobby-thresholded.png" target="_blank">
 ![lobby screenshot with threshold applied](/images/lobbysim/sample-lobby-thresholded.png)
+</a>
 
 Applying a threshold to the screenshot was a simple one-liner with ImageSharp:
 
@@ -127,7 +131,9 @@ To locate the table without hardcoding the position we need to first detect 'wor
 
 How do we detect words? Let's take a look at the "Nickname" text from the thresholded image:
 
+<a href="/images/lobbysim/scaled-nickname-thresholded.png" target="_blank">
 ![Nickname text](/images/lobbysim/scaled-nickname-thresholded.png)
+</a>
 
 If you're scanning the image top-to-bottom left-to-right when you first encounter a white pixel (marked in green in the image below) you can start the following process:
 
@@ -137,7 +143,9 @@ If you're scanning the image top-to-bottom left-to-right when you first encounte
 
 The first steps of this are shown below, the colors are purely illustrative:
 
+<a href="/images/lobbysim/scaled-nickname-step-2.png" target="_blank">
 ![Initial flood fill steps](/images/lobbysim/scaled-nickname-step-2.png)
+</a>
 
 This is basically just a flood fill algorithm except you allow for gaps, both for diagonal pixels and entirely disjoint pixels like the dot on the 'i' and next letters in the word.
 
@@ -147,7 +155,9 @@ Full code for this [is here](https://github.com/EliotJones/FaFLobbySim/blob/main
 
 Using this flood fill word detection the resulting words are fairly well detected and defined:
 
+<a href="/images/lobbysim/words-detected.png" target="_blank">
 ![With word boundaries highlighted](/images/lobbysim/words-detected.png)
+</a>
 
 Once the 'words' are detected there are just some fairly [gnarly heuristics](https://github.com/EliotJones/FaFLobbySim/blob/main/FaFLobbySim/FaFLobbySimClient/CalculateLobbyOccupancy.cs) to group them into lines and identify the table header and columns.
 
