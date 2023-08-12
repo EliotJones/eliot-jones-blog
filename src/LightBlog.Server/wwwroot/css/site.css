@@ -1,3 +1,7 @@
+html {
+    background-color: #fafafe;
+}
+
 body {
     margin: 0;
     padding: 0;
@@ -33,7 +37,7 @@ summary {
     justify-content: center;
     height: 80px;
     background-color: #0984e3;
-    color: #ecf0f1;
+    color: white;
     padding-left: 24px;
 }
 
@@ -60,7 +64,7 @@ summary {
 }
 
 .menu > h1 > a {
-    color: #ecf0f1;
+    color: white;
     text-decoration: none;
 }
 
@@ -68,7 +72,7 @@ summary {
     background-color: #0984e3;
     margin: 24px auto;
     padding: 16px;
-    color: #ecf0f1;
+    color: white;
     font-size: 1.5rem;
     line-height: 2rem;
     margin-top: 64px;
@@ -91,7 +95,7 @@ summary {
         }
 
             .side-box > ul > li > a {
-                color: #ecf0f1;
+                color: white;
                 text-decoration: none;
                 font-weight: bold;
             }
@@ -106,7 +110,7 @@ summary {
         }
 
             .side-box > ol > li > a {
-                color: #ecf0f1;
+                color: white;
                 text-decoration: none;
             }
 
@@ -147,7 +151,7 @@ main {
 
 .more {
     width: 100%;
-    background-color: #ecf0f1;
+    background-color: white;
     height: 32px;
     margin-top: 25px;
     border-radius: 0;
