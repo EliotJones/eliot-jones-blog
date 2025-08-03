@@ -24,14 +24,13 @@ endobj
 This declares that object 16 with generation 0 contains the number 620.
 
 A PDF file is effectively a graph of objects that may reference each other. Objects reference other objects by use of indirect references. These have the format "16 0 R" which indicates that the content
-should be found at object 16 with generation 0. In this case that would point to object 16 containing the number 620. It is up to producer applications to split file content into objects as they wish, though the specification requires certain
-object types be indirect.
+should be found in object 16 (generation number 0). In this case that would point to the object 16 containing the number 620. It is up to producer applications to split file content into objects as they wish, though the specification requires that certain object types be indirect.
 
 ### Finding the cross-reference offset
 
 To avoid the need to scan the entire file, PDFs declare a cross-reference table (xref). This is an index pointing to where each object in the file lives.
 
-Each file ends with a point to the cross-reference file:
+Each file ends with a pointer to the cross-reference file:
 
 ```
 << %trailer >>
@@ -44,7 +43,7 @@ This tells the parser to jump to byte offset 116 to find the xref table (or stre
 
 >  Applications should read a PDF file from its end. The last line of the file contains only the end-of-file marker, `%%EOF`
 
-The specification says the %%EOF marker should be on the last line, but in practice, things are much messier. For example, Adobe Acrobat only requires it to be within the last 1024 bytes. In real files it can appear anywhere.
+Though the specification says the `%%EOF` marker should be on the last line, in practice, things are much messier. For example, Adobe Acrobat only requires it to be within the last 1024 bytes. In real files it can appear anywhere.
 
 Let's assume you're able to find the declared cross-reference offset for now.
 
@@ -61,7 +60,7 @@ xref
 0000140066 00000 n 
 ```
 
-After the `xref` indicator appears, followed by a line break, the first object number and count of objects in the subsection are given. This means: start at object 7 and list 4 objects. Each line gives the byte offset, generation number, and status (n for in-use, f for free). From this, we know where to find objects 8–10 in the file.
+After the `xref` indicator appears, followed by a line break, the first object number and count of objects in the subsection are given. This means: start at object 7 and list 4 objects. Each line gives the byte offset, generation number, and status (n for in-use, f for free). From this, we know where to find objects 8-10 in the file.
 
 So in the example above -- skipping the free entry for object 7 -- this xref table tells where to find the following objects:
 
@@ -136,10 +135,11 @@ This was the case for roughly 5 files in the error set.
 
 ### The pointer is 'close' to the xref
 
-Similar to the previous error here there is no version header offset but following the pointer takes you 'almost' to the xref. The most common cases were to be off by a single whitespace/newline, or
+Similar to the previous error, here there is no version header offset but following the pointer takes you 'almost' to the xref. The most common cases were to be off by a single whitespace/newline, or
 in the `endobj` marker of the previous object:
 
 ```
+endobj
 --> xref
 0 4
 ```
@@ -154,20 +154,19 @@ xref
 
 ### The pointer is correct but the xref offsets are incorrect
 
-Sometimes the pointer correctly jumps to the `xref` token but if you parse the object offsets from the table they are incorrect. This can also be the case where the xref offset is incorrect.
+Sometimes the pointer correctly jumps to the `xref` marker but if you parse the object offsets from the table they are incorrect. The table offsets can also be incorrect when the xref offset is also incorrect.
 
-It can also be the case that offsets are correct for some objects in the table but wrong for others. This was the case for file 0002544.pdf which had an initial pointer off-by-7, then correct
-locations in the xref table's first subsection, then offsets that were off-by-4 for subsequent sections.
+It can also be the case that offsets are correct for some objects in the table but wrong for others. This was the case for file 0002544.pdf in the sample set which had an initial pointer off-by-7. The locations in the xref table's first subsection were correct, then offsets that were off-by-4 bytes for subsequent subsections.
 
 ### The first pointer is correct but the previous offset is incorrect
 
-When a file has been modified the file's trailer (or xref stream dictionary) can contain a `/Prev` pointer to construct a chain of xref tables and streams. Several files had correct initial pointers
+When a file has been modified the file's trailer (or xref stream dictionary) can contain a `/Prev` pointer. This is used to construct a chain of xref tables and streams. Several files had correct initial pointers
 however when parsing the trailer's previous offset the second location was incorrect. One file contained a value of `0` for the previous pointer which indicates that it had incorrectly written the
 default value, rather than an offset.
 
 ### The xref table is not well formatted
 
-Beyond the xref pointer issues seen in the sample set, the table itself can be malformed in unexpected ways.
+Beyond the xref pointer issues seen in the sample set, the table structure itself can be malformed in unexpected ways.
 
 The following examples were reported as Github issues for [PdfPig](https://github.com/UglyToad/PdfPig).
 
@@ -197,8 +196,6 @@ xref
 0 2
 0000000000 65535 f
 0000455.8483a a010 00000 n
-trailer
-<<>>
 ```
 
 ## Conclusion
