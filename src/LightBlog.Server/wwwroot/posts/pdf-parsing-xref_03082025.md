@@ -41,6 +41,8 @@ This tells the parser to jump to byte offset 116 to find the xref table (or stre
 
 Though the specification says the `%%EOF` marker should be on the last line, in practice, things are much messier. For example, Adobe Acrobat only requires it to be within the last 1024 bytes. In real files it can appear anywhere.
 
+In addition files encountered in the wild lacked a linebreak before the offset declaration, or had a typo, e.g. `startref`.
+
 Let's assume you're able to find the declared cross-reference offset for now.
 
 ### Finding all object offsets
@@ -66,7 +68,7 @@ Note: files can have multiple xref tables or streams, linked by `/Prev` entries 
 
 ### Locating the trailer dictionary
 
-Finally, above the startxref marker, you’ll find the trailer dictionary. This provides key metadata, most importantly, where to find the root object. Once you have that, you can follow references and begin interpreting the content.
+Finally, above the startxref marker, you'll find the trailer dictionary. This provides key metadata, most importantly, where to find the root object. Once you have that, you can follow references and begin interpreting the content.
 
 ## The real world: where your pain begins
 
@@ -89,7 +91,7 @@ In screening 3977 files taken from the [common crawl corpus](https://digitalcorp
 In these files the `startxref` pointer is incorrect due to a non-zero PDF content start.
 
 This happens when there's junk data before the `%PDF-` version header. This shifts every single byte offset in the file.
-For example, the declared startxref pointer might be 960, but the actual location is at 950 because of the 10 bytes of junk data at the beginning:
+For example, the declared startxref pointer might be 960, but the actual location is at 970 because of the 10 bytes of junk data at the beginning:
 
     ten bytes!%PDF-1.4
     %âãÏÓ
@@ -105,7 +107,7 @@ For example, the declared startxref pointer might be 960, but the actual locatio
     960
     %%EOF
 
-In order to adjust for this you should capture the offset of the version header in your file. If the first pointer is incorrect you should also try the offset of the first pointer minus the content start offset. But you still need to check both.
+In order to adjust for this you should capture the offset of the version header in your file. If the first pointer is incorrect you should also try the offset of the first pointer plus the content start offset. But you still need to check both.
 
 This problem accounted for roughly 50% of errors in the sample set.
 
