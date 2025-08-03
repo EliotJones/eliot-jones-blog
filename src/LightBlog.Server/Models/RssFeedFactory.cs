@@ -59,7 +59,7 @@ internal class RssFeedFactory : IRssFeedFactory
         var result = new List<Item>(posts.Count);
         foreach (var x in posts.OrderByDescending(x => x.Date))
         {
-            var url = urlHelper.Link("post", new { year = x.Year, month = x.Month, name = x.Name });
+            var url = urlHelper.Link("post", new { year = x.Date.Year, month = x.Date.Month, name = x.Name });
 
             if (url == null)
             {
@@ -77,7 +77,7 @@ internal class RssFeedFactory : IRssFeedFactory
                 Body = x.RawHtml,
                 Link = new Uri(url),
                 Permalink = url,
-                PublishDate = x.Date,
+                PublishDate = x.Date.ToDateTime(new TimeOnly(0, 0)),
                 Author = new Author { Email = siteOptions.Value.AuthorName, Name = siteOptions.Value.Name }
             });
         }

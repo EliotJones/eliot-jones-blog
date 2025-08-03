@@ -9,9 +9,9 @@ public class PostInformation
 
     public string Name { get; }
 
-    public DateTime Date { get; }
+    public DateOnly Date { get; }
 
-    private PostInformation(string filePath, string name, DateTime date)
+    private PostInformation(string filePath, string name, DateOnly date)
     {
         FilePath = filePath;
         Name = name;
@@ -25,8 +25,7 @@ public class PostInformation
         var lastUnderscoreIndex = filePath.LastIndexOf("_", StringComparison.OrdinalIgnoreCase);
         var datePart = filePath[(lastUnderscoreIndex + 1)..].Replace(".md", string.Empty);
 
-        if (!DateTime.TryParseExact(datePart, "ddMMyyyy", CultureInfo.InvariantCulture,
-                DateTimeStyles.AdjustToUniversal, out var date))
+        if (!DateOnly.TryParseExact(datePart, "ddMMyyyy", CultureInfo.InvariantCulture, DateTimeStyles.None, out var date))
         {
             return false;
         }

@@ -1,23 +1,6 @@
 @model LightBlog.Server.ViewModels.PostViewModel
 @{
     ViewData["Title"] = Model.Title;
-    var showComments = ViewData["comments"] is true;
 }
 
 @await Html.PartialAsync("_Post")
-
-@if (showComments)
-{
-    @await Html.PartialAsync("_Disqus")
-}
-else
-{
-    <div id="commentRegion">
-        <a asp-route="post" asp-route-year="@Model.Year"
-           asp-route-month="@Model.Month"
-           asp-route-name="@Model.Name"
-           asp-route-comments="true"
-           asp-fragment="disqus"
-           class="button" id="loadComments">Load Comments</a>
-    </div>
-}

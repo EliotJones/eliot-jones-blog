@@ -147,12 +147,10 @@ public partial class PostRepository : IPostRepository
         var result = new PostViewModel
         {
             Date = date,
-            Month = month,
             Name = name,
             RawHtmlSummary = summary,
             RawHtml = text,
             Title = title,
-            Year = year
         };
 
         var cacheOpts = new MemoryCacheEntryOptions

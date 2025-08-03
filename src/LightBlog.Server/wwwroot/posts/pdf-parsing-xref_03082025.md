@@ -31,9 +31,9 @@ To avoid the need to scan the entire file, PDFs declare a cross-reference table 
 Each file ends with a pointer to the cross-reference file:
 
     << %trailer >>
-     startxref
-     116
-     %%EOF
+    startxref
+    116
+    %%EOF
 
 This tells the parser to jump to byte offset 116 to find the xref table (or stream). In theory this pointer is right at the end of the file, according to the specification:
 

@@ -7,10 +7,6 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>@ViewData["Title"] - @Site.Value.Name</title>
-    
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Rubik:wght@500&display=swap" rel="stylesheet">
 
     <link rel="stylesheet" href="~/css/site.min.css" />
 </head>
@@ -20,20 +16,18 @@
             <a asp-controller="Home"
                asp-action="index">@Site.Value.Name</a>
         </h1>
-        <h2>Thoughts of a developer</h2>
+        <span class="subtitle">Thoughts of a developer</span>
     </nav>
     <div class="container">
-        <div class="row">
-            <main class="eight columns">
-                @RenderBody()
-            </main>
-            @if (ViewData["include-aside"] == null)
-            {
-                <aside class="four columns">
-                    @await Component.InvokeAsync("SideBar")
-                </aside>
-            }
-        </div>
+        <main class="eight columns">
+            @RenderBody()
+        </main>
+        @if (ViewData["include-aside"] == null)
+        {
+            <aside class="four columns">
+                @await Component.InvokeAsync("SideBar")
+            </aside>
+        }
     </div>
 
     <script src="~/js/highlight.pack.js"></script>

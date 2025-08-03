@@ -3,19 +3,20 @@
 <div class="side-box">
     <h2>Recent Posts</h2>
 
-    <ol>
+    <ul>
         @for (var i = 0; i < Model.Count; i++)
         {
             <li>
+                <span class="post-date-sb">@Model[i].Date.ToString("dd MMM, yyyy")</span>
                 <a asp-route="post"
-                   asp-route-year="@Model[i].Year"
-                   asp-route-month="@Model[i].Month"
+                   asp-route-year="@Model[i].Date.Year"
+                   asp-route-month="@Model[i].Date.Month"
                    asp-route-name="@Model[i].Name">
                     @Model[i].Title
                 </a>
             </li>
         }
-    </ol>
+    </ul>
     
     <h2>Other Sites</h2>
     <ul>

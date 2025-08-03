@@ -6,16 +6,16 @@
 }
 
 <div class="post">
-    <h2>
+    <h1>
         <a asp-route="post"
-           asp-route-year="@Model.Year"
-           asp-route-month="@Model.Month"
+           asp-route-year="@Model.Date.Year"
+           asp-route-month="@Model.Date.Month"
            asp-route-name="@Model.Name">
             @Model.Title
         </a>
-    </h2>
+    </h1>
     <div class="date">
-        <span>@Model.Date.ToString("dd/MM/yyyy")</span>
+        <span>@Model.Date.ToString("dd MMM, yyyy")</span>
     </div>
     <div class="post-body">
         @if (isSummaryView)
@@ -30,8 +30,8 @@
     @if (isSummaryView)
     {
         <a class="more" asp-route="post"
-           asp-route-year="@Model.Year"
-           asp-route-month="@Model.Month"
+           asp-route-year="@Model.Date.Year"
+           asp-route-month="@Model.Date.Month"
            asp-route-name="@Model.Name"
            title="@Model.Title">...</a>
     }
