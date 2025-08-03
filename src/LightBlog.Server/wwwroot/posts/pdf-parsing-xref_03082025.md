@@ -15,11 +15,9 @@ Conceptually parsing a PDF is fairly simple:
 
 A PDF object wraps some valid PDF content, numbers, strings, dictionaries, etc., in an object and generation number. The content is surrounded by the `obj/endobj` markers, for example a simple number may have its own PDF object:
 
-```
-16 0 obj
-620
-endobj
-```
+    16 0 obj
+    620
+    endobj
 
 This declares that object 16 with generation 0 contains the number 620.
 
@@ -32,12 +30,10 @@ To avoid the need to scan the entire file, PDFs declare a cross-reference table 
 
 Each file ends with a pointer to the cross-reference file:
 
-```
-<< %trailer >>
-startxref
-116
-%%EOF
-```
+    << %trailer >>
+     startxref
+     116
+     %%EOF
 
 This tells the parser to jump to byte offset 116 to find the xref table (or stream). In theory this pointer is right at the end of the file, according to the specification:
 
@@ -51,14 +47,12 @@ Let's assume you're able to find the declared cross-reference offset for now.
 
 At the specified offset you should find a well-formatted xref table:
 
-```
-xref
-7 4
-0000000000 65535 f 
-0000109882 00000 n 
-0000109933 00000 n 
-0000140066 00000 n 
-```
+    xref
+    7 4
+    0000000000 65535 f 
+    0000109882 00000 n 
+    0000109933 00000 n 
+    0000140066 00000 n 
 
 After the `xref` indicator appears, followed by a line break, the first object number and count of objects in the subsection are given. This means: start at object 7 and list 4 objects. Each line gives the byte offset, generation number, and status (n for in-use, f for free). From this, we know where to find objects 8-10 in the file.
 
@@ -97,21 +91,19 @@ In these files the `startxref` pointer is incorrect due to a non-zero PDF conten
 This happens when there's junk data before the `%PDF-` version header. This shifts every single byte offset in the file.
 For example, the declared startxref pointer might be 960, but the actual location is at 950 because of the 10 bytes of junk data at the beginning:
 
-```
-ten bytes!%PDF-1.4
-%âãÏÓ
-4 0 obj
-(content follows)
-endobj
-% more content
-xref
-0 5
-% ...
-<< >>
-startxref
-960
-%%EOF
-```
+    ten bytes!%PDF-1.4
+    %âãÏÓ
+    4 0 obj
+    (content follows)
+    endobj
+    % more content
+    xref
+    0 5
+    % ...
+    << >>
+    startxref
+    960
+    %%EOF
 
 In order to adjust for this you should capture the offset of the version header in your file. If the first pointer is incorrect you should also try the offset of the first pointer minus the content start offset. But you still need to check both.
 
@@ -123,13 +115,11 @@ For some files there is no content preceding the version header, however the poi
 
 For example jumping directly to the specified offset takes you to this position:
 
-```
-endobj xref
-0 246
-0000000000 65535 f 
-0000184481 00000 n 
-00000<---
-```
+    endobj xref
+    0 246
+    0000000000 65535 f 
+    0000184481 00000 n 
+    00000<---
 
 This was the case for roughly 5 files in the error set.
 
@@ -138,19 +128,15 @@ This was the case for roughly 5 files in the error set.
 Similar to the previous error, here there is no version header offset but following the pointer takes you 'almost' to the xref. The most common cases were to be off by a single whitespace/newline, or
 in the `endobj` marker of the previous object:
 
-```
-endobj
---> xref
-0 4
-```
+    endobj
+    --> xref
+    0 4
 
 or:
 
-```
--->endobj
-xref
-0 7
-```
+    -->endobj
+    xref
+    0 7
 
 ### The pointer is correct but the xref offsets are incorrect
 
@@ -172,31 +158,25 @@ The following examples were reported as Github issues for [PdfPig](https://githu
 
 No linebreak after `xref`, for example:
 
-```
-xref5 2
-0000000000 65535 f 
-0000134883 00000 n 
-```
+    xref5 2
+    0000000000 65535 f 
+    0000134883 00000 n 
 
 More object entries in a subsection than declared in the header, for example if only 2 objects are declared the table can contain more:
 
-```
-xref
-0 2
-0000000000 65535 f 
-0000000230 00000 n 
-0000000520 00000 n 
-0000001000 00000 n 
-```
+    xref
+    0 2
+    0000000000 65535 f 
+    0000000230 00000 n 
+    0000000520 00000 n 
+    0000001000 00000 n 
 
 Garbage in the middle of the table, for example:
 
-```
-xref
-0 2
-0000000000 65535 f
-0000455.8483a a010 00000 n
-```
+    xref
+    0 2
+    0000000000 65535 f
+    0000455.8483a a010 00000 n 
 
 ## Conclusion
 
@@ -204,3 +184,4 @@ We looked at how parsing a PDF should proceed according to the specification. We
 All tested PDF viewers (PDF.js, Adobe, Sumatra) were able to open these files because most parsers are extended to support non-compliant files.
 
 This serves as a brief survey of the challenges of parsing a single part of the PDF specification (22 pages out of 1,300 total from version 1.7).
+
