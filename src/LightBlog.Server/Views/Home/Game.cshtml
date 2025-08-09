@@ -1,0 +1,22 @@
+﻿@model LightBlog.Server.ViewModels.GameListModel
+@{
+    ViewData["Title"] = Model.Name;
+}
+
+<h1>@Model.Name</h1>
+<div class="date">
+    <span>@Model.Date.ToString("dd MMM, yyyy")</span>
+</div>
+<a href="/games">Back to list</a>
+<div class="game-descr">
+    @Model.Description
+</div>
+
+<div id="phaser">
+
+</div>
+
+@section scripts
+{
+    <script src="@($"/js/{Model.JsUrl}.js")"></script>
+}

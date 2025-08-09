@@ -13,4 +13,8 @@
     <PackageReference Include="MarkdownSharp" Version="2.0.5" />
     <PackageReference Include="WilderMinds.RssSyndication" Version="1.7.0" />
   </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="wwwroot\images\game-assets\phaser-tutorial\" />
+  </ItemGroup>
 </Project>

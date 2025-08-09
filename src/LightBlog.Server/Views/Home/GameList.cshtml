@@ -1,0 +1,24 @@
+﻿@model List<LightBlog.Server.ViewModels.GameListModel>
+@{
+    ViewData["Title"] = "Game list";
+}
+
+<h1>Games</h1>
+
+<ul class="game-list">
+@for (var i = 0; i < Model.Count; i++)
+{
+    var game = Model[i];
+    <li>
+        <div class="game-name">
+            <a href="@($"/games/{game.Id}")">@game.Name</a>
+            <div class="date">
+                <span>@game.Date.ToString("dd MMM, yyyy")</span>
+            </div>
+            <div class="game-descr">
+                @game.Description
+            </div>
+        </div>
+    </li>
+}
+</ul>
