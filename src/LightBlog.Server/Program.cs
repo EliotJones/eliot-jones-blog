@@ -2,6 +2,7 @@ using LightBlog.Server.Models;
 using Microsoft.AspNetCore.Mvc.Infrastructure;
 using LightBlog.Server.Models.Posts;
 using Microsoft.Extensions.Caching.Memory;
+using Microsoft.AspNetCore.StaticFiles;
 
 namespace LightBlog.Server;
 
@@ -19,14 +20,14 @@ public class Program
             builder.Configuration.GetSection("SiteOptions"));
 
         services.AddSingleton<IActionContextAccessor, ActionContextAccessor>();
-        
+
         services.AddSingleton<IPostRepository, PostRepository>(x => new PostRepository(
             x.GetRequiredService<IWebHostEnvironment>().WebRootPath,
             x.GetRequiredService<IMemoryCache>(),
             x.GetRequiredService<ILogger<PostRepository>>()));
 
         services.AddTransient<IRssFeedFactory, RssFeedFactory>();
-        
+
         builder.Services.AddControllersWithViews();
 
         var app = builder.Build();
@@ -36,7 +37,15 @@ public class Program
             app.UseExceptionHandler("/Home/Error");
         }
 
-        app.UseStaticFiles();
+        // Set up custom content types - associating file extension to MIME type
+        var provider = new FileExtensionContentTypeProvider();
+        // Add new mappings
+        provider.Mappings[".tmj"] = "text/plain";
+
+        app.UseStaticFiles(new StaticFileOptions
+        {
+            ContentTypeProvider = provider,
+        });
 
         app.UseRouting();
 

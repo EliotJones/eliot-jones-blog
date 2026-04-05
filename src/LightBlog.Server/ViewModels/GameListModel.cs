@@ -11,4 +11,8 @@ public record GameListModel
     public required string Description { get; init; }
 
     public required DateOnly Date { get; init; }
+
+    public required IReadOnlyList<AssetCredit> Credits { get; init; }
 }
+
+public record AssetCredit(string Name, string Url);

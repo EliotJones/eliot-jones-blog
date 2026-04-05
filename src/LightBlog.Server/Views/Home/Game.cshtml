@@ -16,6 +16,14 @@
 
 </div>
 
+<h3>Asset credits</h3>
+<ul>
+    @foreach (var item in Model.Credits)
+    {
+        <li><a href="@item.Url" rel="noreferrer nofollow">@item.Name</a></li>
+    }
+</ul>
+
 @section scripts
 {
     <script src="@($"/js/{Model.JsUrl}.js")"></script>
